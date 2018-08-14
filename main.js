@@ -1,19 +1,19 @@
 /**
  *
- * template adapter
+ * RutenbeckLink adapter
  *
  *
  *  file io-package.json comments:
  *
  *  {
  *      "common": {
- *          "name":         "template",                  // name has to be set and has to be equal to adapters folder name and main file name excluding extension
- *          "version":      "0.0.0",                    // use "Semantic Versioning"! see http://semver.org/
- *          "title":        "Node.js template Adapter",  // Adapter title shown in User Interfaces
+ *          "name":         "rutenbecklink",            
+ *          "version":      "0.2.0",                   
+ *          "title":        "Node.js RutenbeckLink",  
  *          "authors":  [                               // Array of authord
- *              "name <mail@template.com>"
+ *              "Daniel Ross <mail@networks4industry.de>"
  *          ]
- *          "desc":         "template adapter",          // Adapter description shown in User Interfaces. Can be a language object {de:"...",ru:"..."} or a string
+ *          "desc":         "Adapter for Rutenbeck remote IO devices like TCR IP 4",
  *          "platform":     "Javascript/Node.js",       // possible values "javascript", "javascript/Node.js" - more coming
  *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
  *          "materialize":  true,                       // support of admin3
