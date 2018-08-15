@@ -1,68 +1,28 @@
 {
     "common": {
-        "name": "template",
-        "version": "0.6.0",
+        "name": "rutenbecklink",
+        "version": "0.2.0",
         "news": {
-            "0.6.0": {
-                "en": "Support of admin3",
-                "de": "Unterstützung von admin3",
-                "ru": "Поддержка admin3",
-                "pt": "Suporte de admin3",
-                "nl": "Ondersteuning van admin3",
-                "fr": "Support de admin3",
-                "it": "Supporto di admin3",
-                "es": "Soporte de admin3"
-            },
-            "0.5.0": {
-                "en": "beta version",
-                "de": "Betaversion",
-                "ru": "Бета версия",
-                "pt": "Versão beta",
-                "fr": "Version bêta",
-                "nl": "Beta versie"
-            },
-            "0.0.1": {
+            "0.2.0": {
                 "en": "initial adapter",
-                "de": "Initiale Version",
-                "ru": "Первоначальный адаптер",
-                "pt": "Versão inicial",
-                "fr": "Version initiale",
-                "nl": "Eerste release"
+                "de": "Initiale Version"
             }
         },
-		"title": "Javascript/Node.js based template",
+		"title": "Javascript/Node.js based rutenbecklink",
         "titleLang": {
-            "en": "Javascript/Node.js based template",
-            "de": "Javascript / Node.js basierte Vorlagenadapter",
-            "ru": "Адаптер шаблонов на основе Javascript / Node.js",
-            "pt": "Adaptador de modelo baseado em Javascript / Node.js",
-            "nl": "Javascript / Node.js gebaseerde sjabloonadapter",
-            "fr": "Javascript / Node.js basé adaptateur de modèle",
-            "it": "Adattatore modello basato su Javascript / Node.js",
-            "es": "Adaptador de plantilla basado en JavaScript / Node.js"
+            "en": "Javascript/Node.js based Rutenbeck Adapter",
+            "de": "Javascript / Node.js basierter Rutenbeck Adapter"
         },
         "desc": {
-            "en": "ioBroker template",
-            "de": "ioBroker Template",
-            "ru": "ioBroker Template как образец",
-            "pt": "Modelo de adaptador para o ioBroker",
-            "fr": "ioBroker adaptateur modèle",
-            "nl": "ioBroker Template",
-            "it": "Adattatore modello ioBroker",
-            "es": "Adaptador de plantilla ioBroker"
+            "en": "ioBroker adapter for Rutenbeck remote-io devices",
+            "de": "ioBroker adapter für Rutenbeck Remote-IO Geräte"
         },
         "authors": [
-            "@@Author@@ <@@email@@>"
+            "Daniel Ross <mail@networks4industry.de>"
         ],
         "docs": {
             "en": "docs/en/admin.md",
-            "ru": "docs/ru/admin.md",
-            "de": "docs/de/admin.md",
-            "es": "docs/es/admin.md",
-            "it": "docs/it/admin.md",
-            "fr": "docs/fr/admin.md",
-            "nl": "docs/nl/admin.md",
-            "pt": "docs/pt/admin.md"
+            "de": "docs/de/admin.md"
         },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
@@ -70,7 +30,7 @@
         "materialize": true,
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.template/master/admin/template.png",
-        "keywords": ["template", "vis", "GUI", "graphical", "scada"],
+        "keywords": ["Rutenbeck", "TRC IP4", "RemoteIO"],
         "readme": "https://github.com/ioBroker/ioBroker.template/blob/master/README.md",
         "loglevel": "info",
         "type": "general",
