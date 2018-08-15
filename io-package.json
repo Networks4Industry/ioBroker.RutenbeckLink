@@ -6,6 +6,10 @@
             "0.2.0": {
                 "en": "initial adapter",
                 "de": "Initiale Version"
+            },
+            "0.1.0": {
+                "en": "Copy of ioBroker template",
+                "de": "Kopie des ioBroker Templates"
             }
         },
 		"title": "Javascript/Node.js based rutenbecklink",
@@ -26,12 +30,12 @@
         },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
-        "icon": "template.png",
+        "icon": "RIOlink.png",
         "materialize": true,
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.template/master/admin/template.png",
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.template/master/admin/RIOlink.png",
         "keywords": ["Rutenbeck", "TRC IP4", "RemoteIO"],
-        "readme": "https://github.com/ioBroker/ioBroker.template/blob/master/README.md",
+        "readme": "https://github.com/Networks4Industry/ioBroker.RutenbeckLink/blob/master/README.md",
         "loglevel": "info",
         "type": "general",
         "license": "MIT",

@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.2.0
+* (Networks4Industry) First draft
+
 ### 0.1.0
 * (Networks4Industry) Copy of ioBroker.template
 
