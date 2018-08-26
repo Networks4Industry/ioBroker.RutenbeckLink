@@ -39,7 +39,7 @@ const utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.template.0
-const adapter = new utils.Adapter('template');
+const adapter = new utils.Adapter('rutenbecklink');
 
 /*Variable declaration, since ES6 there are let to declare variables. Let has a more clearer definition where 
 it is available then var.The variable is available inside a block and it's childs, but not outside. 
@@ -96,8 +96,8 @@ function main() {
 
     // The adapters config (in the instance object everything under the attribute "native") is accessible via
     // adapter.config:
-    adapter.log.info('config test1: '    + adapter.config.test1);
-    adapter.log.info('config test1: '    + adapter.config.test2);
+    adapter.log.info('config IP-adress: '    + adapter.config.adress);
+    adapter.log.info('config test2: '    + adapter.config.test2);
     adapter.log.info('config mySelect: ' + adapter.config.mySelect);
 
 
@@ -131,16 +131,23 @@ function main() {
      *   you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
      *
      */
-
-    // the variable testVariable is set to true as command (ack=false)
-    adapter.setState('testVariable', true);
+    if (adapter.config.test2 == 41) {
+        // the variable testVariable is set to true as command (ack=false)
+        adapter.setState('testVariable', true);
+        adapter.log.info('testVariable is true');
+    }
+    else{
+        // the variable testVariable is set to false as command (ack=false)
+        adapter.setState('testVariable', false);
+    }
+    
 
     // same thing, but the value is flagged "ack"
     // ack should be always set to true if the value is received from or acknowledged from the target system
-    adapter.setState('testVariable', {val: true, ack: true});
+    //adapter.setState('testVariable', {val: true, ack: true});
 
     // same thing, but the state is deleted after 30s (getState will return null afterwards)
-    adapter.setState('testVariable', {val: true, ack: true, expire: 30});
+    //adapter.setState('testVariable', {val: true, ack: true, expire: 30});
 
 
 

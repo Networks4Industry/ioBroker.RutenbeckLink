@@ -1,9 +1,9 @@
 {
   "Auto": "Auto",
-  "Manual": "Manual",
+  "Manual": "Manuell",
   "My select": "Mein Auswahl",
   "on save adapter restarts with new config immediately": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet.",
   "adapter settings": "RutenbeckLink Einstellungen",
-  "test1": "Test 1",
-  "test2": "Test 2"
+  "adress": "IP-Adresse",
+  "port": "Port"
 }

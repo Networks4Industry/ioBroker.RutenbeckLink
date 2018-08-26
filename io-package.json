@@ -12,7 +12,7 @@
                 "de": "Kopie des ioBroker Templates"
             }
         },
-		"title": "Javascript/Node.js based rutenbecklink",
+		"title": "RutenbeckLink",
         "titleLang": {
             "en": "Javascript/Node.js based Rutenbeck Adapter",
             "de": "Javascript / Node.js basierter Rutenbeck Adapter"
@@ -33,7 +33,7 @@
         "icon": "RIOlink.png",
         "materialize": true,
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.template/master/admin/RIOlink.png",
+        "extIcon": "https://raw.githubusercontent.com/Networks4Industry/ioBroker.RutenbeckLink/admin/RIOlink.png",
         "keywords": ["Rutenbeck", "TRC IP4", "RemoteIO"],
         "readme": "https://github.com/Networks4Industry/ioBroker.RutenbeckLink/blob/master/README.md",
         "loglevel": "info",
