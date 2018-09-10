@@ -37,15 +37,14 @@
         "keywords": ["Rutenbeck", "TRC IP4", "RemoteIO"],
         "readme": "https://github.com/Networks4Industry/ioBroker.RutenbeckLink/blob/master/README.md",
         "loglevel": "info",
-        "type": "general",
+        "type": "hardware",
         "license": "MIT",
         "messagebox": false,
         "restartAdapters": ["vis"]
     },
     "native": {
-        "test1": true,
-        "test2": 42,
-        "mySelect": "auto"
+        "address": "192.168.1.1",
+        "port": 22
     },
     "objects": [
 

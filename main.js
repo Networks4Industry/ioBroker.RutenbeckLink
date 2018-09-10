@@ -1,52 +1,20 @@
-/**
- *
- * RutenbeckLink adapter
- *
- *
- *  file io-package.json comments:
- *
- *  {
- *      "common": {
- *          "name":         "rutenbecklink",            
- *          "version":      "0.2.0",                   
- *          "title":        "Node.js RutenbeckLink",  
- *          "authors":  [                               // Array of authord
- *              "Daniel Ross <mail@networks4industry.de>"
- *          ]
- *          "desc":         "Adapter for Rutenbeck remote IO devices like TCR IP 4",
- *          "platform":     "Javascript/Node.js",       // possible values "javascript", "javascript/Node.js" - more coming
- *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
- *          "materialize":  true,                       // support of admin3
- *          "schedule":     "0 0 * * *"                 // cron-style schedule. Only needed if mode=schedule
- *          "loglevel":     "info"                      // Adapters Log Level
- *      },
- *      "native": {                                     // the native object is available via adapter.config in your adapters code - use it for configuration
- *          "test1": true,
- *          "test2": 42,
- *          "mySelect": "auto"
- *      }
- *  }
- *
- */
+/************************************************************
+ *                                                          *
+ *                  RutenbeckLink adapter                   *
+ *                                                          *
+ ************************************************************/
 
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
 'use strict';
 
-// you have to require the utils module and call adapter function
+// require the utils module and call adapter function
 const utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 
-// you have to call the adapter function and pass a options object
-// name has to be set and has to be equal to adapters folder name and main file name excluding extension
-// adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.template.0
+// call the adapter function and pass a options object
 const adapter = new utils.Adapter('rutenbecklink');
 
-/*Variable declaration, since ES6 there are let to declare variables. Let has a more clearer definition where 
-it is available then var.The variable is available inside a block and it's childs, but not outside. 
-You can define the same variable name inside a child without produce a conflict with the variable of the parent block.*/
-let variable = 1234;
-
-// is called when adapter shuts down - callback has to be called under any circumstances!
+// adapter shuts down
 adapter.on('unload', function (callback) {
     try {
         adapter.log.info('cleaned everything up...');
@@ -56,24 +24,24 @@ adapter.on('unload', function (callback) {
     }
 });
 
-// is called if a subscribed object changes
+// subscribed object changes
 adapter.on('objectChange', function (id, obj) {
     // Warning, obj can be null if it was deleted
     adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
 });
 
-// is called if a subscribed state changes
+// subscribed state changes
 adapter.on('stateChange', function (id, state) {
     // Warning, state can be null if it was deleted
     adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
 
-    // you can use the ack flag to detect if it is status (true) or command (false)
+    // use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
         adapter.log.info('ack is not set!');
     }
 });
 
-// Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
+// message was sent to adapter instance over message box
 adapter.on('message', function (obj) {
     if (typeof obj === 'object' && obj.message) {
         if (obj.command === 'send') {
@@ -86,31 +54,19 @@ adapter.on('message', function (obj) {
     }
 });
 
-// is called when databases are connected and adapter received configuration.
-// start here!
+// databases is connected and adapter received configuration
 adapter.on('ready', function () {
     main();
 });
 
 function main() {
 
-    // The adapters config (in the instance object everything under the attribute "native") is accessible via
-    // adapter.config:
-    adapter.log.info('config IP-adress: '    + adapter.config.adress);
-    adapter.log.info('config test2: '    + adapter.config.test2);
-    adapter.log.info('config mySelect: ' + adapter.config.mySelect);
+    // adapters config
+    adapter.log.info('config IP-address: '    + adapter.config.address);
+    adapter.log.info('config Port: '    + adapter.config.port);
 
 
-    /**
-     *
-     *      For every state in the system there has to be also an object of type state
-     *
-     *      Here a simple template for a boolean variable named "testVariable"
-     *
-     *      Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-     *
-     */
-
+    // io Variables
     adapter.setObject('testVariable', {
         type: 'state',
         common: {
@@ -121,17 +77,12 @@ function main() {
         native: {}
     });
 
-    // in this template all states changes inside the adapters namespace are subscribed
+    // all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
 
 
-    /**
-     *   setState examples
-     *
-     *   you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-     *
-     */
-    if (adapter.config.test2 == 41) {
+    // set states
+    if (adapter.config.port == 22) {
         // the variable testVariable is set to true as command (ack=false)
         adapter.setState('testVariable', true);
         adapter.log.info('testVariable is true');
@@ -141,7 +92,6 @@ function main() {
         adapter.setState('testVariable', false);
     }
     
-
     // same thing, but the value is flagged "ack"
     // ack should be always set to true if the value is received from or acknowledged from the target system
     //adapter.setState('testVariable', {val: true, ack: true});
@@ -149,9 +99,31 @@ function main() {
     // same thing, but the state is deleted after 30s (getState will return null afterwards)
     //adapter.setState('testVariable', {val: true, ack: true, expire: 30});
 
+    var net = require('net');
 
+    var client = new net.Socket();
+    client.connect(adapter.config.port, adapter.config.address, function() {
+        adapter.log.info('Connecting ' + adapter.config.address + ' on port ' + adapter.config.port);
+    });
 
-    // examples for the checkPassword/checkGroup functions
+    client.on('connect', function() {
+        adapter.log.info('Connected to ' + adapter.config.address + ' on port ' + adapter.config.port);
+    });
+
+    client.on('data', function(data) {
+        adapter.log.info('Received: ' + data);
+        client.destroy(); // kill client after server's response
+    });
+
+    client.on('close', function() {
+        adapter.log.info('Connection closed');
+    });
+
+    client.on('error', function() {
+        adapter.log.info('Error connecting to ' + adapter.config.address + ' on port ' + adapter.config.port);
+    });
+
+    // checkPassword/checkGroup functions
     adapter.checkPassword('admin', 'iobroker', function (res) {
         console.log('check user admin pw ioboker: ' + res);
     });

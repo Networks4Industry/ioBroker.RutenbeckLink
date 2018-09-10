@@ -4,6 +4,8 @@
   "My select": "My select",
   "on save adapter restarts with new config immediately": "on save adapter restarts with new config immediately",
   "adapter settings": "RutenbeckLink adapter settings",
-  "adress": "IP-adress",
-  "port": "Port"
+  "address": "IP-address",
+  "port": "Port",
+  "Info":"Information",
+  "This is how we do it.": "This is how we do it."
 }
