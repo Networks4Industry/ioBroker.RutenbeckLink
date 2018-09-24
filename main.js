@@ -17,6 +17,7 @@ const adapter = new utils.Adapter('rutenbecklink');
 // adapter shuts down
 adapter.on('unload', function (callback) {
     try {
+        clearInterval(UpdateIO);
         adapter.log.info('cleaned everything up...');
         callback();
     } catch (e) {
@@ -56,8 +57,52 @@ adapter.on('message', function (obj) {
 
 // databases is connected and adapter received configuration
 adapter.on('ready', function () {
+    const UpdateIO = setInterval(() => {
+        readIO(1);
+        readIO(2);
+    }, adapter.config.interval * 1000);
+
     main();
 });
+
+function sendUDP (message:Buffer, port:uint, address){
+    var dgram = require('dgram');
+    var client = dgram.createSocket('udp4');
+        
+    client.send(message, 0, message.length, port, address, function(err, bytes) {
+        if (err) throw err;
+            adapter.log.info('Message "'+ message + '" sent to ' + address +':'+ port);
+        client.close();
+    });
+}
+
+function readIO(IO:int){
+    if (IO > 4 || IO < 0){
+        adapter.log.error('Invalid IO number: ' + IO);
+        return false;
+    }
+    else{
+        var message = new Buffer('OUT' + IO + ' ?');
+        sendUDP(message, adapter.config.port, adapter.config.address);
+        return true;
+    }
+}
+
+function writeIO(IO:int,newState:bool){
+    if (IO > 4 || IO < 0){
+        adapter.log.error('Invalid IO number: ' + IO);
+    }
+    else{   
+        if (newState){
+            var message = new Buffer('OUT' + IO + ' 1');
+            sendUDP(message, adapter.config.port, adapter.config.address);
+        }
+        else{
+            var message = new Buffer('OUT' + IO + ' 0');
+            sendUDP(message, adapter.config.port, adapter.config.address);
+        }
+    }  
+}
 
 function main() {
 
@@ -67,10 +112,40 @@ function main() {
 
 
     // io Variables
-    adapter.setObject('testVariable', {
+    adapter.setObject('IO_1', {
         type: 'state',
         common: {
-            name: 'testVariable',
+            name: 'IO_1',
+            type: 'boolean',
+            role: 'indicator'
+        },
+        native: {}
+    });
+
+    adapter.setObject('IO_2', {
+        type: 'state',
+        common: {
+            name: 'IO_2',
+            type: 'boolean',
+            role: 'indicator'
+        },
+        native: {}
+    });
+
+    adapter.setObject('IO_3', {
+        type: 'state',
+        common: {
+            name: 'IO_3',
+            type: 'boolean',
+            role: 'indicator'
+        },
+        native: {}
+    });
+
+    adapter.setObject('IO_4', {
+        type: 'state',
+        common: {
+            name: 'IO_4',
             type: 'boolean',
             role: 'indicator'
         },
@@ -82,15 +157,9 @@ function main() {
 
 
     // set states
-    if (adapter.config.port == 22) {
-        // the variable testVariable is set to true as command (ack=false)
-        adapter.setState('testVariable', true);
-        adapter.log.info('testVariable is true');
-    }
-    else{
-        // the variable testVariable is set to false as command (ack=false)
-        adapter.setState('testVariable', false);
-    }
+    // the variable testVariable is set to false as command (ack=false)
+    //adapter.setState('testVariable', false);
+    
     
     // same thing, but the value is flagged "ack"
     // ack should be always set to true if the value is received from or acknowledged from the target system
@@ -99,29 +168,7 @@ function main() {
     // same thing, but the state is deleted after 30s (getState will return null afterwards)
     //adapter.setState('testVariable', {val: true, ack: true, expire: 30});
 
-    var net = require('net');
-
-    var client = new net.Socket();
-    client.connect(adapter.config.port, adapter.config.address, function() {
-        adapter.log.info('Connecting ' + adapter.config.address + ' on port ' + adapter.config.port);
-    });
-
-    client.on('connect', function() {
-        adapter.log.info('Connected to ' + adapter.config.address + ' on port ' + adapter.config.port);
-    });
-
-    client.on('data', function(data) {
-        adapter.log.info('Received: ' + data);
-        client.destroy(); // kill client after server's response
-    });
-
-    client.on('close', function() {
-        adapter.log.info('Connection closed');
-    });
-
-    client.on('error', function() {
-        adapter.log.info('Error connecting to ' + adapter.config.address + ' on port ' + adapter.config.port);
-    });
+    //Run function with defined interval
 
     // checkPassword/checkGroup functions
     adapter.checkPassword('admin', 'iobroker', function (res) {

@@ -7,5 +7,6 @@
   "address": "IP-address",
   "port": "Port",
   "Info":"Information",
+  "Interval":"Intervall",
   "This is how we do it.": "This is how we do it."
 }
